@@ -2,6 +2,23 @@
 
 https://github.com/wonderunit/einktest/blob/master/src/main.cpp
 
+![Overview](https://github.com/wonderunit/einktest/raw/master/IMG_20190626_161934.jpg)
+
+(**Ignore what is on the screen that is from testing with the Raspberry Pi**)
+
+![Pinout](https://github.com/wonderunit/einktest/raw/master/IMG_20190626_162000.jpg)
+
+Waveshare HAT SPI | NodeMCU-32S
+------------ | -------------
+5V | 5V
+GND | GND
+MISO | P19
+MOSI | P23
+SCK | CLK
+CS | P4
+RST | P26
+HRDY | P4
+
 ## serial output:
 
 ```
