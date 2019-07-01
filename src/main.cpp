@@ -6,6 +6,8 @@
 #include <WiFiClient.h>
 #include <WiFiClientSecure.h>
 
+#include "qrcode.h"
+
 GxEPD2_BW<GxEPD2_it60, GxEPD2_it60::HEIGHT / 8> display(GxEPD2_it60(/*CS=5*/ 5, /*DC=*/ 0, /*RST=*/ 16, /*BUSY=*/ 4));
 
 const char* ssid     = "pupkit";
@@ -354,65 +356,14 @@ void showBitmapFrom_HTTPS(const char* host, const char* path, const char* filena
 // }
 
 
-void drawBitmaps_200x200()
-{
-  int16_t x = (display.width() - 200) / 2;
-  int16_t y = (display.height() - 200) / 2;
-  showBitmapFrom_HTTPS(host_rawcontent, path_rawcontent, "logo200x200.bmp", fp_rawcontent, x, y);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_rawcontent, "first200x200.bmp", fp_rawcontent, x, y);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_rawcontent, "second200x200.bmp", fp_rawcontent, x, y);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_rawcontent, "third200x200.bmp", fp_rawcontent, x, y);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_rawcontent, "fourth200x200.bmp", fp_rawcontent, x, y);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_rawcontent, "fifth200x200.bmp", fp_rawcontent, x, y);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_rawcontent, "sixth200x200.bmp", fp_rawcontent, x, y);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_rawcontent, "seventh200x200.bmp", fp_rawcontent, x, y);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_rawcontent, "eighth200x200.bmp", fp_rawcontent, x, y);
-  delay(100);
-}
-
 void drawBitmaps_other()
 {
-  int16_t w2 = display.width() / 2;
-  int16_t h2 = display.height() / 2;
-  showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "betty_1.bmp", fp_rawcontent, w2 - 100, h2 - 160);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "betty_4.bmp", fp_rawcontent, w2 - 102, h2 - 126);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "marilyn_240x240x8.bmp", fp_rawcontent, w2 - 120, h2 - 120);
-  delay(100);
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "teststoryboard.bmp", fp_rawcontent, 0, 0);
-  delay(3000);
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test2.bmp", fp_rawcontent, 0, 0);
-  delay(3000);
   showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test3.bmp", fp_rawcontent, 0, 0);
   delay(3000);
   showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test4.bmp", fp_rawcontent, 0, 0);
   delay(3000);
-
-  showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "miniwoof.bmp", fp_rawcontent, w2 - 60, h2 - 80);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "test.bmp", fp_rawcontent, w2 - 100, h2 - 100);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "tiger.bmp", fp_rawcontent, w2 - 160, h2 - 120);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "tiger_178x160x4.bmp", fp_rawcontent, w2 - 89, h2 - 80);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "tiger_240x317x4.bmp", fp_rawcontent, w2 - 120, h2 - 160);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "tiger_320x200x24.bmp", fp_rawcontent, w2 - 160, h2 - 100);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "tiger16T.bmp", fp_rawcontent, w2 - 160, h2 - 100);
-  delay(100);
-  showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "woof.bmp", fp_rawcontent, w2 - 100, h2 - 100);
-  delay(100);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test2.bmp", fp_rawcontent, 0, 0);
+  delay(3000);
 }
 
 
@@ -423,6 +374,39 @@ void drawBitmapsStoryboard()
 }
 
 
+
+
+void drawQRCode() {
+
+  QRCode qrcode;
+  uint8_t qrcodeBytes[qrcode_getBufferSize(3)];
+
+  qrcode_initText(&qrcode, qrcodeBytes, 2, ECC_LOW, "134/189/4/24:24:24:24");
+  Serial.print(qrcode.size);
+
+  uint16_t chunkSize = 600 / (qrcode.size+2);
+
+  display.firstPage();
+  do
+  {
+    display.fillScreen(GxEPD_WHITE); // set the background to white (fill the buffer with value for white)
+
+    for (uint16_t y = 0; y < qrcode.size; y++) {
+        for (uint16_t x = 0; x < qrcode.size; x++) {
+            if (qrcode_getModule(&qrcode, x, y )) {
+                display.fillRect((x+1)*chunkSize, (y+1)*chunkSize, chunkSize, chunkSize, 0x00);
+            } else {
+                Serial.print("  ");
+            }
+        }
+        Serial.print("\n");
+    }
+
+
+  } while (display.nextPage());
+  delay(10000);
+
+}
 
 void setup()
 {
@@ -447,6 +431,7 @@ void setup()
 
   delay(100);
 
+  drawQRCode();
 
 
   if (!WiFi.getAutoConnect() || ( WiFi.getMode() != WIFI_STA) || ((WiFi.SSID() != ssid) && String(ssid) != "........"))
