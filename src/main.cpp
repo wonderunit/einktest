@@ -401,10 +401,16 @@ void drawBitmaps_other()
   delay(100);
   showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "betty_4.bmp", fp_rawcontent, w2 - 102, h2 - 126);
   delay(100);
-   showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "marilyn_240x240x8.bmp", fp_rawcontent, w2 - 120, h2 - 120);
+  showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "marilyn_240x240x8.bmp", fp_rawcontent, w2 - 120, h2 - 120);
   delay(100);
-     showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "teststoryboard.bmp", fp_rawcontent, 0, 0);
-    delay(100);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "teststoryboard.bmp", fp_rawcontent, 0, 0);
+  delay(3000);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test2.bmp", fp_rawcontent, 0, 0);
+  delay(3000);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test3.bmp", fp_rawcontent, 0, 0);
+  delay(3000);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test4.bmp", fp_rawcontent, 0, 0);
+  delay(3000);
 
   showBitmapFrom_HTTPS(host_rawcontent, path_prenticedavid, "miniwoof.bmp", fp_rawcontent, w2 - 60, h2 - 80);
   delay(100);
