@@ -1,0 +1,6 @@
+{
+  "terminal.integrated.env.osx": {
+    "PATH": "/Users/setpixel/.platformio/penv/bin:/Users/setpixel/.platformio/penv:/Users/setpixel/Downloads/google-cloud-sdk/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin",
+    "PLATFORMIO_CALLER": "vscode"
+  }
+}
