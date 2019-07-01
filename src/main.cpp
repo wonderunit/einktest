@@ -290,36 +290,21 @@ void showBitmapFrom_HTTPS(const char* host, const char* path, const char* filena
                   }
                   uint16_t pn = (in_byte >> bitshift) & bitmask;
                   whitish = mono_palette_buffer[pn / 8] & (0x1 << pn % 8);
+                  blue = pn/16;
                   colored = color_palette_buffer[pn / 8] & (0x1 << pn % 8);
                   in_byte <<= depth;
                   in_bits -= depth;
+                  blue = ~(0x80 >> col % 8);
                 }
                 break;
             }
-            if (whitish)
-            {
-              // keep white
-            }
-            else if (colored && with_color)
-            {
-              out_color_byte &= ~(0x80 >> col % 8); // colored
-            }
-            else
-            {
-              out_byte &= ~(0x80 >> col % 8); // black
-            }
-            // if ((7 == col % 8) || (col == w - 1)) // write that last byte! (for w%8!=0 boarder)
-            // {
-            //   output_row_mono_buffer[out_idx++] = blue; //out_byte;
-            //   out_byte = 0xFF; // white (for w%8!=0 boarder)
-            // }
 
             output_row_mono_buffer[out_idx++] = blue;
           } // end pixel
           int16_t yrow = y + (flip ? h - row - 1 : row);
           //display.writeImage(output_row_mono_buffer, output_row_color_buffer, x, yrow, w, 1);
         //  display.writeNative(output_row_mono_buffer, output_row_color_buffer, x, yrow, w, 1, false, false, false);
-          display.writeNative(output_row_mono_buffer, 0, x, yrow, w, 1, false, false, false);
+          display.writeNative(output_row_mono_buffer, 0, x, yrow, w, 1, false, false, true);
 
         } // end line
         Serial.print("downloaded in "); Serial.print(millis() - startTime); Serial.println(" ms");
@@ -446,7 +431,7 @@ void setup()
   Serial.println();
   Serial.println("GxEPD2_WiFi_Example");
   delay(100);
-  display.init(115200);
+  display.init();
 
 #ifdef RE_INIT_NEEDED
   WiFi.persistent(true);
