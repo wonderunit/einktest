@@ -108,6 +108,9 @@ uint8_t output_row_color_buffer[max_row_width / 8];   // buffer for at least one
 uint8_t mono_palette_buffer[max_palette_pixels / 8];  // palette buffer for depth <= 8 b/w
 uint8_t color_palette_buffer[max_palette_pixels / 8]; // palette buffer for depth <= 8 c/w
 
+uint8_t greyArray[360*150];
+
+
 void showBitmapFrom_HTTPS(const char *host, const char *path, const char *filename, const char *fingerprint, int16_t x, int16_t y, bool with_color) {
   WiFiClientSecure client;
   bool connection_ok = false;
@@ -332,8 +335,8 @@ void showBitmapFrom_HTTPS(const char *host, const char *path, const char *filena
         Serial.println(" ms");
         Serial.print("bytes read ");
         Serial.println(bytes_read);
-        display.refresh();
-        display.setFullWindow();
+
+        display.setPartialWindow(0,0,800,600);
       }
     }
   }
@@ -466,11 +469,12 @@ void drawQRCode()
 
 void showShot() {
 
+
   display.setTextColor(0);
   display.firstPage();
   do
   {
-    display.fillScreen(GxEPD_WHITE);
+    //display.fillScreen(GxEPD_WHITE);
 
     display.setFont(&FreeSans9pt7b);
     display.setCursor(100, 20);
@@ -540,14 +544,17 @@ void showShot() {
 
 
 
-
   } while (display.nextPage());
 
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test4.bmp", fp_rawcontent, 420, 300-40+10);
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "camera-plot304.bmp", fp_rawcontent, 10, 240);
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "previous.bmp", fp_rawcontent, 420, 300-74-6-40+10);
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "next.bmp", fp_rawcontent, 420+174+4, 300-74-6-40+10);
+  delay(1000);
 
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "main350.bmp", fp_rawcontent, 420, 300-40+10);
+  display.refresh();
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "camera-plot2300.bmp", fp_rawcontent, 10, 240);
+  display.refresh();
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "previous173.bmp", fp_rawcontent, 420, 300-74-6-40+10);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "next173.bmp", fp_rawcontent, 420+174+4, 300-74-6-40+10);
+  display.refresh();
 
   delay(50000);
 
@@ -556,6 +563,12 @@ void showShot() {
 
 void setup()
 {
+  for(uint16_t b=0; b<(360*150); ++b){
+    greyArray[b] = 0xcc;
+  }
+
+
+
   Serial.begin(115200);
   Serial.println("GxEPD2_WiFi_Example");
   Serial.println();
