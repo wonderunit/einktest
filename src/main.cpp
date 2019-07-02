@@ -1,3 +1,5 @@
+#define ENABLE_GxEPD2_GFX 1
+
 #include <GxEPD2_BW.h>
 #include <GxEPD2_3C.h>
 
@@ -6,7 +8,15 @@
 #include <WiFiClient.h>
 #include <WiFiClientSecure.h>
 
+#include <Fonts/FreeMonoBold9pt7b.h>
+#include <Fonts/FreeSansBold24pt7b.h>
+
+#include <Open_Sans_ExtraBold_100Bitmaps.h>
+#include <Open_Sans_ExtraBold_150.h>
+
 #include "qrcode.h"
+
+
 
 GxEPD2_BW<GxEPD2_it60, GxEPD2_it60::HEIGHT / 8> display(GxEPD2_it60(/*CS=5*/ 5, /*DC=*/0, /*RST=*/16, /*BUSY=*/4));
 
@@ -408,6 +418,33 @@ void drawQRCode()
   delay(500);
 }
 
+void showShot() {
+
+
+  display.setTextColor(0);
+  display.firstPage();
+  do
+  {
+    display.fillScreen(GxEPD_WHITE);
+    //display.drawRect(x, y - tbh, tbw, tbh, GxEPD_BLACK);
+    display.setFont(&FreeMonoBold9pt7b);
+    display.setCursor(10, 10);
+    display.print("Scene 2");
+
+    display.setFont(&Open_Sans_ExtraBold_100);
+    display.setCursor(100, 100);
+    display.print("Scene 10");
+
+    display.setFont(&Open_Sans_ExtraBold_150);
+    display.setCursor(0, 200);
+    display.print("3 50 4");
+
+  } while (display.nextPage());
+  delay(10000);
+
+}
+
+
 void setup()
 {
   Serial.begin(115200);
@@ -428,6 +465,8 @@ void setup()
   Serial.println("GxEPD2_WiFi_Example");
 
   delay(100);
+
+  showShot();
 
   drawQRCode();
 
