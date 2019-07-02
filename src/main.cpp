@@ -544,8 +544,15 @@ void showShot() {
   } while (display.nextPage());
 
   delay(100);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "next.bmp", fp_rawcontent, 420+174, 300-74-4-40);
 
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "camera-plot300.bmp", fp_rawcontent, 10, 240);
+  delay(100);
   showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test4.bmp", fp_rawcontent, 420, 300-40);
+  delay(100);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "previous.bmp", fp_rawcontent, 420, 300-74-4-40);
+  delay(100);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "next.bmp", fp_rawcontent, 420+174, 300-74-4-40);
 
 
   delay(50000);
