@@ -8,7 +8,12 @@
 #include <WiFiClient.h>
 #include <WiFiClientSecure.h>
 
-#include <Fonts/FreeMonoBold9pt7b.h>
+
+#include <Fonts/FreeSans9pt7b.h>
+#include <Fonts/FreeSansBold9pt7b.h>
+
+#include <Fonts/FreeSans18pt7b.h>
+
 #include <Fonts/FreeSansBold24pt7b.h>
 
 #include <Open_Sans_ExtraBold_100Bitmaps.h>
@@ -202,7 +207,9 @@ void showBitmapFrom_HTTPS(const char *host, const char *path, const char *filena
         uint16_t green;
         uint16_t blue;
 
-        display.clearScreen();
+        display.setPartialWindow(x, y, w, h);
+
+        //display.clearScreen();
         uint32_t rowPosition = flip ? imageOffset + (height - h) * rowSize : imageOffset;
         //Serial.print("skip "); Serial.println(rowPosition - bytes_read);
         uint32_t out_idx = 0;
@@ -326,6 +333,7 @@ void showBitmapFrom_HTTPS(const char *host, const char *path, const char *filena
         Serial.print("bytes read ");
         Serial.println(bytes_read);
         display.refresh();
+        display.setFullWindow();
       }
     }
   }
@@ -375,6 +383,7 @@ void drawBitmaps_other()
   delay(3000);
   showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test800x4.bmp", fp_rawcontent, 0, 0);
   delay(3000);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test6.bmp", fp_rawcontent, 0, 0);
 }
 
 void drawBitmapsStoryboard()
@@ -414,33 +423,132 @@ void drawQRCode()
       Serial.print("\n");
     }
 
+    display.setFont(&FreeSans9pt7b);
+    display.setCursor(600, 100-30);
+    display.print("SCN");
+
+    display.setFont(&FreeSans9pt7b);
+    display.setCursor(600-10, 100-30+75);
+    display.print("SHOT");
+
+    display.setFont(&FreeSans9pt7b);
+    display.setCursor(600-10, 100-30+75+75);
+    display.print("TAKE");
+
+    display.setFont(&FreeSans9pt7b);
+    display.setCursor(600-10, 350-30);
+    display.print("TIME");
+
+    uint16_t xOffset = 650;
+
+    display.setFont(&Open_Sans_ExtraBold_100);
+    display.setCursor(xOffset, 100);
+    display.print("3");
+    display.setCursor(xOffset, 100+75);
+    display.println("4");
+    display.setCursor(xOffset, 100+75+75);
+    display.println("8");
+
+    display.setFont(&Open_Sans_ExtraBold_100);
+    display.setCursor(xOffset, 350);
+    display.print("03");
+    display.setCursor(xOffset, 350+75);
+    display.println("23");
+    display.setCursor(xOffset, 350+75+75);
+    display.println("14");
+    display.setCursor(xOffset, 350+75+75+75);
+    display.println("12");
+
+
   } while (display.nextPage());
-  delay(500);
+  delay(50000);
 }
 
 void showShot() {
-
 
   display.setTextColor(0);
   display.firstPage();
   do
   {
     display.fillScreen(GxEPD_WHITE);
-    //display.drawRect(x, y - tbh, tbw, tbh, GxEPD_BLACK);
-    display.setFont(&FreeMonoBold9pt7b);
-    display.setCursor(10, 10);
-    display.print("Scene 2");
 
-    display.setFont(&Open_Sans_ExtraBold_100);
-    display.setCursor(100, 100);
-    display.print("Scene 10");
+    display.setFont(&FreeSans9pt7b);
+    display.setCursor(100, 20);
+    display.print("SCENE");
+
+    display.setFont(&FreeSans9pt7b);
+    display.setCursor(400, 20);
+    display.print("SHOT");
+
+    display.setFont(&FreeSans9pt7b);
+    display.setCursor(650, 20);
+    display.print("TAKE");
 
     display.setFont(&Open_Sans_ExtraBold_150);
-    display.setCursor(0, 200);
-    display.print("3 50 4");
+    display.setCursor(100, 150);
+    display.print("3");
+
+    display.setFont(&Open_Sans_ExtraBold_150);
+    display.setCursor(350, 150);
+    display.print("4");
+
+    display.setFont(&Open_Sans_ExtraBold_150);
+    display.setCursor(600, 150);
+    display.print("8");
+
+    display.setFont(&FreeSans9pt7b);
+    display.setCursor(100+100, 150);
+    display.print("/ 79");
+
+    display.setFont(&FreeSans9pt7b);
+    display.setCursor(350+100, 150);
+    display.print("/ 89");
+
+
+    display.setFont(&FreeSansBold9pt7b);
+    display.setCursor(10, 200);
+    display.print("3. INT. CAVE LAKE STATUE");
+    display.setFont(&FreeSans9pt7b);
+    display.setCursor(10, 200+20);
+    display.print("The dark tunnel they're sprinting through...");
+
+
+
+    //display.drawRect(x, y - tbh, tbw, tbh, GxEPD_BLACK);
+    display.setFont(&FreeSansBold9pt7b);
+    display.setCursor(420, 400+50);
+    display.print("RYAN: Whoa...");
+    display.setFont(&FreeSans9pt7b);
+    display.setCursor(420, 400+20+50);
+    display.print("The dark tunnel they're sprinting through...");
+
+    display.setFont(&FreeSans18pt7b);
+    display.setCursor(420, 500+20);
+    display.print("TRI 22mm 1m f/5.6");
+    display.setCursor(420, 500+40+20);
+    display.print("0:06 -3 0 2m");
+
+
+    display.setFont(&FreeSans18pt7b);
+    display.setCursor(10, 600-15);
+    display.print("3:25PM");
+
+    display.setFont(&FreeSans9pt7b);
+    display.setCursor(150, 600-15);
+    display.print("3/24/2019");
+
+
+
+
 
   } while (display.nextPage());
-  delay(10000);
+
+  delay(100);
+
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test4.bmp", fp_rawcontent, 420, 300-40);
+
+
+  delay(50000);
 
 }
 
@@ -451,7 +559,7 @@ void setup()
   Serial.println("GxEPD2_WiFi_Example");
   Serial.println();
   Serial.println("GxEPD2_WiFi_Example");
-  delay(100);
+  delay(1);
   display.init();
 
 #ifdef RE_INIT_NEEDED
@@ -464,11 +572,8 @@ void setup()
 
   Serial.println("GxEPD2_WiFi_Example");
 
-  delay(100);
+  delay(1);
 
-  showShot();
-
-  drawQRCode();
 
   if (!WiFi.getAutoConnect() || (WiFi.getMode() != WIFI_STA) || ((WiFi.SSID() != ssid) && String(ssid) != "........"))
   {
@@ -501,10 +606,18 @@ void setup()
   // Print the IP address
   Serial.println(WiFi.localIP());
 
+
+ showShot();
+
+  drawQRCode();
+
+
   // drawBitmapsBuffered_200x200();
   // drawBitmapsBuffered_other();
   //drawBitmaps_200x200();
   drawBitmaps_other();
+
+  display.powerOff();
 
   // drawBitmapsStoryboard();
 
