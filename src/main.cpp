@@ -103,7 +103,7 @@ static const uint16_t max_row_width = 800;      // for up to 7.5" display
 static const uint16_t max_palette_pixels = 256; // for depth <= 8
 
 uint8_t input_buffer[3 * input_buffer_pixels];        // up to depth 24
-uint8_t output_row_mono_buffer[max_row_width * 50];   // buffer for at least one row of b/w bits
+uint8_t output_row_mono_buffer[max_row_width * 2];   // buffer for at least one row of b/w bits
 uint8_t output_row_color_buffer[max_row_width / 8];   // buffer for at least one row of color bits
 uint8_t mono_palette_buffer[max_palette_pixels / 8];  // palette buffer for depth <= 8 b/w
 uint8_t color_palette_buffer[max_palette_pixels / 8]; // palette buffer for depth <= 8 c/w
@@ -313,8 +313,8 @@ void showBitmapFrom_HTTPS(const char *host, const char *path, const char *filena
           //  display.writeNative(output_row_mono_buffer, output_row_color_buffer, x, yrow, w, 1, false, false, false);
           rowBufferIndex++;
 
-          if (rowBufferIndex == 49) {
-            display.writeNative(output_row_mono_buffer, 0, x, yrow, w, 50, false, true, true);
+          if (rowBufferIndex == 1) {
+            display.writeNative(output_row_mono_buffer, 0, x, yrow, w, 1, false, true, true);
             rowBufferIndex = 0;
             out_idx = 0;
           }
@@ -543,16 +543,10 @@ void showShot() {
 
   } while (display.nextPage());
 
-  delay(100);
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "next.bmp", fp_rawcontent, 420+174, 300-74-4-40);
-
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "camera-plot300.bmp", fp_rawcontent, 10, 240);
-  delay(100);
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test4.bmp", fp_rawcontent, 420, 300-40);
-  delay(100);
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "previous.bmp", fp_rawcontent, 420, 300-74-4-40);
-  delay(100);
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "next.bmp", fp_rawcontent, 420+174, 300-74-4-40);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test4.bmp", fp_rawcontent, 420, 300-40+10);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "camera-plot304.bmp", fp_rawcontent, 10, 240);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "previous.bmp", fp_rawcontent, 420, 300-74-6-40+10);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "next.bmp", fp_rawcontent, 420+174+4, 300-74-6-40+10);
 
 
   delay(50000);
