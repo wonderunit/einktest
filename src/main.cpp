@@ -264,6 +264,7 @@ void showBitmapFrom_HTTPS(const char *host, const char *path, const char *filena
                 red = (msb & 0xF8);
               }
             }
+              output_row_mono_buffer[out_idx++] = blue;
             break;
             case 1:
             case 4:
@@ -273,17 +274,22 @@ void showBitmapFrom_HTTPS(const char *host, const char *path, const char *filena
               {
                 in_byte = input_buffer[in_idx++];
                 in_bits = 8;
+                blue = in_byte;
+                //Serial.println(blue);
+                //output_row_mono_buffer[out_idx++] = blue;
               }
               uint16_t pn = (in_byte >> bitshift) & bitmask;
+
+              //Serial.println(pn*16);
+              output_row_mono_buffer[out_idx++] = pn*16;
+              //Serial.println(pn);
               blue = pn / 16;
               in_byte <<= depth;
               in_bits -= depth;
-              Serial.println(in_bits);
-              blue = ~(0x80 >> col % 8);
             }
             break;
             }
-            output_row_mono_buffer[out_idx++] = blue;
+
           } // end pixel
           int16_t yrow = y + (flip ? h - row - 1 : row);
           //display.writeImage(output_row_mono_buffer, output_row_color_buffer, x, yrow, w, 1);
@@ -296,7 +302,6 @@ void showBitmapFrom_HTTPS(const char *host, const char *path, const char *filena
             out_idx = 0;
           }
 
-          Serial.println(yrow);
 
           if (yrow == 0) {
             display.writeNative(output_row_mono_buffer, 0, x, yrow, w, rowBufferIndex, false, true, true);
@@ -358,7 +363,7 @@ void drawBitmaps_other()
   delay(3000);
   showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test4.bmp?1", fp_rawcontent, 0, 0);
   delay(3000);
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test2.bmp", fp_rawcontent, 0, 0);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "test800x4.bmp", fp_rawcontent, 0, 0);
   delay(3000);
 }
 
@@ -400,7 +405,7 @@ void drawQRCode()
     }
 
   } while (display.nextPage());
-  delay(5000);
+  delay(500);
 }
 
 void setup()
