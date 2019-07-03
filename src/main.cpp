@@ -37,7 +37,7 @@ const char *host_rawcontent = "raw.githubusercontent.com";
 const char *path_rawcontent = "/ZinggJM/GxEPD2/master/extras/bitmaps/";
 const char *path_prenticedavid = "/prenticedavid/MCUFRIEND_kbv/master/extras/bitmaps/";
 
-void showBitmapFrom_HTTPS(const char *host, const char *path, const char *filename, const char *fingerprint, int16_t x, int16_t y, bool with_color = true);
+void showBitmapFrom_HTTPS(const char *host, const char *path, const char *filename, const char *fingerprint, int16_t x, int16_t y, bool with_color = true, bool shouldRefresh = true);
 
 uint16_t read16(WiFiClient &client)
 {
@@ -111,7 +111,7 @@ uint8_t color_palette_buffer[max_palette_pixels / 8]; // palette buffer for dept
 uint8_t greyArray[360*150];
 
 
-void showBitmapFrom_HTTPS(const char *host, const char *path, const char *filename, const char *fingerprint, int16_t x, int16_t y, bool with_color) {
+void showBitmapFrom_HTTPS(const char *host, const char *path, const char *filename, const char *fingerprint, int16_t x, int16_t y, bool with_color, bool shouldRefresh) {
   WiFiClientSecure client;
   bool connection_ok = false;
   bool valid = false; // valid format to be handled
@@ -335,7 +335,9 @@ void showBitmapFrom_HTTPS(const char *host, const char *path, const char *filena
         Serial.println(" ms");
         Serial.print("bytes read ");
         Serial.println(bytes_read);
-
+        if (shouldRefresh) {
+          display.refresh();
+        }
         display.setPartialWindow(0,0,800,600);
       }
     }
@@ -548,12 +550,12 @@ void showShot() {
 
   delay(1000);
 
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "main350.bmp", fp_rawcontent, 420, 300-40+10);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "main3502.bmp", fp_rawcontent, 420, 300-40+10, false, false);
   display.refresh();
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "camera-plot2300.bmp", fp_rawcontent, 10, 240);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "camera-plot2300.bmp", fp_rawcontent, 10, 240, false, false);
   display.refresh();
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "previous173.bmp", fp_rawcontent, 420, 300-74-6-40+10);
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "next173.bmp", fp_rawcontent, 420+174+4, 300-74-6-40+10);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "previous2173.bmp", fp_rawcontent, 420, 300-74-6-40+10, false, false);
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "next1732.bmp", fp_rawcontent, 420+174+4, 300-74-6-40+10, false, false);
   display.refresh();
 
   delay(50000);
