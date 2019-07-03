@@ -466,17 +466,15 @@ void drawQRCode()
 
 
   } while (display.nextPage());
-  delay(50000);
+  delay(7000);
 }
 
 void showShot() {
-
-
   display.setTextColor(0);
   display.firstPage();
   do
   {
-    //display.fillScreen(GxEPD_WHITE);
+    display.fillScreen(GxEPD_WHITE);
 
     display.setFont(&FreeSans9pt7b);
     display.setCursor(100, 20);
@@ -510,7 +508,6 @@ void showShot() {
     display.setCursor(350+100, 150);
     display.print("/ 89");
 
-
     display.setFont(&FreeSansBold9pt7b);
     display.setCursor(10, 200);
     display.print("3. INT. CAVE LAKE STATUE");
@@ -519,8 +516,6 @@ void showShot() {
     display.print("The dark tunnel they're sprinting through...");
 
 
-
-    //display.drawRect(x, y - tbh, tbw, tbh, GxEPD_BLACK);
     display.setFont(&FreeSansBold9pt7b);
     display.setCursor(420, 400+50);
     display.print("RYAN: Whoa...");
@@ -548,17 +543,14 @@ void showShot() {
 
   } while (display.nextPage());
 
-  delay(1000);
-
   showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "main3502.bmp", fp_rawcontent, 420, 300-40+10, false, false);
-  display.refresh();
-  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "camera-plot2300.bmp", fp_rawcontent, 10, 240, false, false);
-  display.refresh();
   showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "previous2173.bmp", fp_rawcontent, 420, 300-74-6-40+10, false, false);
   showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "next1732.bmp", fp_rawcontent, 420+174+4, 300-74-6-40+10, false, false);
   display.refresh();
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "camera-plot2300.bmp", fp_rawcontent, 10, 240, false, false);
+  display.refresh();
 
-  delay(50000);
+  delay(7000);
 
 }
 
@@ -622,8 +614,16 @@ void setup()
   // Print the IP address
   Serial.println(WiFi.localIP());
 
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "slaterbg.bmp", fp_rawcontent, 0, 0);
 
- showShot();
+  display.setTextColor(0xffff);
+  display.setFont(&FreeSans9pt7b);
+  display.setCursor(100, 20);
+  display.print("SCENE");
+
+
+  delay(3000);
+  showShot();
 
   drawQRCode();
 
@@ -631,7 +631,10 @@ void setup()
   // drawBitmapsBuffered_200x200();
   // drawBitmapsBuffered_other();
   //drawBitmaps_200x200();
-  drawBitmaps_other();
+  //drawBitmaps_other();
+
+  showBitmapFrom_HTTPS("raw.githubusercontent.com", "/wonderunit/einktest/master/", "slaterbg.bmp", fp_rawcontent, 0, 0);
+  delay(1000);
 
   display.powerOff();
 
